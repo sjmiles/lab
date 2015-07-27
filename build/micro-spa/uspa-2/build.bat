@@ -1,2 +1,2 @@
-call vulcanize --inline-css --inline-scripts src-raw/critical-segment.html > src/critical-segment.html
+call vulcanize --inline-css --inline-scripts index-debug.html > index.html
 pause

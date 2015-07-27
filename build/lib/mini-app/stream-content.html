@@ -1,0 +1,91 @@
+<link rel="import" href="../../components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../components/paper-material/paper-material.html">
+
+<link rel="import" href="../../components/pulp-elements/pulp-toolbar.html">
+
+<link rel="import" href="post-view.html">
+
+<dom-module id="stream-content">
+
+  <style>
+
+    :host {
+      display: block;
+      margin: 0 auto;
+      max-width: 720px;
+      min-width: 320px;
+    }
+
+    paper-toolbar {
+      color: #333;
+      background-color: yellow;
+    }
+
+    paper-card {
+      display: block;
+      padding-top: 16px;
+    }
+
+    paper-material {
+      @apply(--layout-vertical);
+    }
+
+    #content {
+      padding: 16px;
+      color: black;
+      @apply(--layout-flex);
+      opacity: 1;
+      transition: opacity 2000ms;
+      /* TODO(sjmiles): remove magic number */
+      padding-top: 56px;
+    }
+
+    #content[unresolved] {
+      opacity: 0;
+      transition: opacity 2000ms;
+    }
+
+  </style>
+
+  <template>
+
+    <div id="content" unresolved>
+
+      <template is="dom-repeat" items="{{items}}" on-dom-change="repeatResolved">
+
+        <paper-card>
+          <paper-material>
+
+            <post-view image="{{item.image}}" content="{{item.content}}" on-detail="detail"></post-view>
+
+          </paper-material>
+        </paper-card>
+
+      </template>
+
+    </div>
+
+    <pulp-toolbar>
+      <span>Stream</span>
+    </pulp-toolbar>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      repeatResolved: function(e) {
+        this.$.content.removeAttribute('unresolved');
+      },
+
+      detail: function(e) {
+        // creating an event handler here has a side effect that
+        // populates e.model with information from the dom-repeat
+      }
+
+    });
+
+  </script>
+
+</dom-module>

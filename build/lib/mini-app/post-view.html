@@ -1,0 +1,80 @@
+<dom-module id="post-view">
+
+  <style>
+
+    :host {
+      padding: 8px;
+      background-color: white;
+    }
+
+    [content] {
+      margin: 16px 0;
+    }
+
+    [matte] {
+      text-align: center;
+      position: relative;
+    }
+
+    img {
+
+      /*
+      width: 100%;
+      height: auto;
+      */
+
+      /*
+      width: auto;
+      height: 30vw;
+      */
+
+      max-height:100%;
+      max-width:100%;
+
+    }
+
+    [tools] {
+      padding: 8px;
+    }
+
+  </style>
+
+  <template>
+
+    <div on-tap="detail">
+
+      <div content>{{content}}</div>
+
+      <div matte>
+        <img Xsrc="{{imageUrl(image)}}" alt="Image">
+      </div>
+
+    </div>
+
+    <div tools>
+      <button on-tap="dialog">Show dialog</button>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      detail: function() {
+        this.fire('detail');
+      },
+
+      dialog: function() {
+        this.fire('dialog');
+      },
+
+      imageUrl: function(src) {
+        return 'https://lh3.googleusercontent.com/' + src;
+      }
+
+    });
+
+  </script>
+
+</dom-module>

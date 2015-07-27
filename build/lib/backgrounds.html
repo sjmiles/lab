@@ -1,0 +1,53 @@
+<link rel="import" href="../components/polymer/polymer.html">
+
+<style is="custom-style">
+
+  :root {
+
+  --sport-leather: {
+     background:
+     radial-gradient(black 15%, transparent 16%) 0 0,
+     radial-gradient(black 15%, transparent 16%) 8px 8px,
+     radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+     radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+     background-color:#282828;
+     background-size:16px 16px;
+     color: white;
+   };
+
+  }
+
+  body {
+    font-family: sans-serif;
+  }
+
+</style>
+
+<dom-module id="full-bleed">
+  <style>
+
+    :host {
+      opacity: 1;
+      margin: 0;
+      font-family: sans-serif;
+      min-height: 100vh;
+    @apply(--sport-leather);
+    }
+
+    :host[unresolved] {
+      opacity: 0;
+      transition: opacity 400ms;
+    }
+
+  </style>
+  <script>
+
+    Polymer({
+      extends: 'body',
+      hostAttributes: {
+        unresolved: true
+      }
+    });
+
+  </script>
+</dom-module>

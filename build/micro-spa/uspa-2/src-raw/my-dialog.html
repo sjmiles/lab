@@ -1,0 +1,65 @@
+<dom-module id="my-dialog">
+
+  <style>
+
+    :host {
+      @apply(--layout-vertical);
+      color: black;
+    }
+
+    [content] {
+      overflow: auto;
+      @apply(--layout-vertical);
+      @apply(--layout-flex);
+    }
+
+    [footer] {
+      padding: 8px;
+      background-color: white;
+    }
+
+    button {
+      padding: 8px;
+      font-size: 1.5em;
+    }
+
+  </style>
+
+  <template>
+
+    <div content>
+
+      <p>The content in dialog also can scroll.</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+      <p>One</p><p>Two</p><p>Three</p>
+
+    </div>
+    <div footer>
+
+      <button on-tap="closeAction">Cancel</button>
+
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+      closeAction: function() {
+        this.fire('close', null, {bubbles: false});
+      }
+    });
+
+  </script>
+
+</dom-module>

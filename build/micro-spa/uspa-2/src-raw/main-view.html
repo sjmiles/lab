@@ -1,0 +1,156 @@
+  <!-- components -->
+
+  <link href="../../../components/iron-flex-layout/iron-flex-layout.html" rel="import">
+  <link href="../../../components/iron-pages/iron-pages.html" rel="import">
+
+  <link href="../../../components/pulp-elements/pulp-router.html" rel="import">
+  <link href="../../../components/pulp-elements/pulp-drawer-panel.html" rel="import">
+
+  <link href="../../../lib/mini-app/stream-content.html" rel="import">
+
+  <!-- primary view -->
+
+  <dom-module id="main-view">
+
+    <style>
+      :host, [fit] {
+        @apply(--layout-vertical);
+      }
+
+      [flex] {
+        @apply(--layout-flex);
+      }
+
+      a {
+        background-color: whitesmoke;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 0.7em;
+        text-decoration: none;
+      }
+
+    </style>
+
+    <template>
+
+      <pulp-router route="{{route}}"></pulp-router>
+      <pulp-route route="{{route}}" matches="post/:postid" postid="{{postId}}"></pulp-route>
+
+      <pulp-drawer-panel dialog-open="{{dialogOpen}}">
+
+        <iron-pages main selected="{{pageIndex}}" selected-attribute="active" selected-item="{{page}}">
+
+          <stream-content items="{{stream}}"></stream-content>
+
+          <lazy-page href="../../../lib/mini-app/post-content.html" debug_delay="1000">
+            <template is="lazy-template">
+
+              <post-content post="{{detail}}"></post-content>
+
+            </template>
+          </lazy-page>
+
+          <lazy-page href="my-view.html" debug_delay="1000">
+            <template is="lazy-template">
+
+              <my-view flex></my-view>
+
+            </template>
+          </lazy-page>
+
+        </iron-pages>
+
+        <lazy-page flex fit dialog href="my-dialog.html" active="{{loadDialog}}">
+          <template is="lazy-template">
+
+            <my-dialog flex on-close="closeDialogAction"></my-dialog>
+
+          </template>
+        </lazy-page>
+
+      </pulp-drawer-panel>
+
+    </template>
+
+    <script>
+
+      Polymer({
+
+        properties: {
+
+          pageIndex: {
+             value: 0
+          },
+
+          postId: {
+            observer: '_postIdChanged'
+          },
+
+          detail: {
+            observer: '_detailChanged'
+          },
+
+          stream: {
+            value: function() {
+              return [{
+                image: '-LfvKLKc9mrU/VQm9nQ34b8I/AAAAAAAAAeo/nRwraw0MzI4/photo.jpg',
+                content: 'See if you\'ve got what it takes to head into a box�or just get a taste of the workout class without all that pressure. Strong Ankle Workout',
+              },{
+                image: 'cRi-q75UOhpZruPlICKz3pGm_7SJedtEV7k7eh1X3jk',
+                content: 'A mobile game is a video game played on a mobile phone, smartphone, PDA, tablet computer, portable media player or calculator. This does not include games played on dedicated handheld video game systems such as Nintendo 3DS or PlayStation Vita.',
+              },{
+                image: '-IiyBch2wY4_uLWTEoq7NCU24kkYDw3vrRVxysXdJ7A',
+                content: 'The furniture and rugs in a room offer a decorating framework; flesh out the look with home decor. By adding a few decor pieces here and there, you can create a warm, welcoming look that captures your personality.',
+              },{
+                image: 'dqgfoArLAUNkowY5NfxdJy-stvlZ43bilAj0td6ea8Y',
+                content: 'George (Paul Rudd) and Linda (Jennifer Aniston) have overextended, overstressed lives in Manhattan. After George loses his job, he and Linda have little choice but to move to Atlanta and stay with his terrible',
+              },{
+                image: '3yP4Pk_JbXV7x9ym43YpAwbOswZA2B0IOm9qoH76qyw',
+                content: 'South by Southwest is a set of film, interactive, and music festivals and conferences that take place early each year in mid-March in Austin, Texas, United States. It began in 1987, and has continued to grow in both scope and size every year.'
+              },{
+                image: 'DDer5EcuYxBtOlAsCzWxc8HHzAphgV9phX-5spVs64Q',
+                content: 'The National Collegiate Athletic Association (NCAA) Men\'s Division I Basketball Tournament is a single-elimination tournament played each spring in the United States, currently featuring 68 college basketball teams, to determine the national championship of the major college basketball teams. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in porta mi. Integer vitae ante sed velit tristique finibus. Pellentesque a tristique leo. Nulla tristique erat nec cursus eleifend. Proin ullamcorper efficitur lacus. Curabitur consequat at magna vitae venenatis. Nullam porta libero egestas enim vulputate gravida. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse pellentesque urna a turpis laoreet varius. Integer tempus, mauris ac luctus convallis, lacus nisl dignissim libero, ut placerat eros libero ut diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris placerat bibendum nulla accumsan tempus. Cras hendrerit vulputate mauris, at iaculis ante venenatis nec. Ut lacinia facilisis libero eu dignissim. Morbi elit tellus, tincidunt sed hendrerit vel, consequat eu elit. Suspendisse eget ligula at quam congue scelerisque id nec leo. Quisque sit amet orci et justo hendrerit eleifend nec ut tortor. Sed non imperdiet sapien, nec vestibulum est.'
+              }];
+            }
+          }
+
+        },
+
+        listeners: {
+          dialog: 'openDialogAction',
+          detail: 'openDetailAction',
+          back: 'backAction'
+        },
+
+        openDialogAction: function() {
+          this.loadDialog = true;
+          this.dialogOpen = true;
+        },
+
+        closeDialogAction: function() {
+          this.dialogOpen = false;
+        },
+
+        _detailChanged: function(detail) {
+          this.pageIndex = detail ? 1 : 0;
+        },
+
+        backAction: function() {
+          this.detail = null;
+        },
+
+        openDetailAction: function(e) {
+          this.detail = e.model.item;
+        },
+
+        _postIdChanged: function(id) {
+          this.detail = this.stream[id];
+        }
+
+      });
+
+    </script>
+
+  </dom-module>
+
+

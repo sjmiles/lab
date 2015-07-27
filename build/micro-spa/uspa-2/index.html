@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+
+  <!-- environment configuration -->
+
+  <title>uSPA-2</title>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <script src="../../components/webcomponentsjs/webcomponents-lite.js"></script>
+
+  <!-- dependencies for first render, aka bytes we can't live without -->
+
+  <link href="src/critical-segment.html" rel="import">
+
+  <!-- look and feel choices here -->
+
+  <style>
+
+    body {
+      font-family: sans-serif;
+    }
+    body[unresolved] {
+      opacity: 0;
+    }
+
+  </style>
+
+</head>
+<body unresolved is="full-bleed">
+
+  <main-view>
+    Welcome to our Static Content<br>
+  </main-view>
+
+</body>
+</html>

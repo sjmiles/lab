@@ -48,7 +48,8 @@
       },
       
       tail: {
-        notify: true
+        notify: true,
+        observer: '_tailChanged'
       },
       
       route: {
@@ -95,6 +96,7 @@
       var head = head.join('/');
       var tail = src.join('/');
       //
+      this.head = head;
       this.tail = tail;
       //
       //if (Object.keys(values).length === 0) {
@@ -109,15 +111,19 @@
       //}
     },
     
+    _tailChanged: function(tail) {
+      console.log('got new route tail, new route', this.head + '/' + tail);  
+    },
+    
     _fauxNotify: function(property, value) {
       Object.defineProperty(this, property, {
         configurable: true,
         get: function() { 
-          console.log('getting', property);
+          //console.log('getting', property);
           return this._dynData[property]; 
         },
         set: function(value) { 
-          console.log('SETTING', property, value);
+          console.log('setting route data: ', property, value);
           this._dynData[property] = value;
           this._routinate()
         }
@@ -157,6 +163,7 @@
     },
 
     _setRoute: function(route) {
+      console.warn('setting route: ', route);
       setRoute(route);
     }
 

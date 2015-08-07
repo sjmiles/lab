@@ -118,7 +118,7 @@
         set: function(value) { 
           console.log('SETTING', property, value);
           this._dynData[property] = value;
-          this.routinate()
+          this._routinate()
         }
       });
        this._dynData[property] = value;
@@ -126,7 +126,7 @@
     },
 
     _routinate: function() {
-      var trg = this.match.split('/');
+      var trg = this.matches.split('/');
       var interp = trg.map(function(result, value) {
         if (value[0] == ':') {
           value = this[value.slice(1)] || '';

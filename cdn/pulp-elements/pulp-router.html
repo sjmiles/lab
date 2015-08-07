@@ -110,7 +110,7 @@
     },
     
     _fauxNotify: function(property, value) {
-      Object.defineProperty(property, {
+      Object.defineProperty(this, property, {
         get: function() { 
           console.log('getting', property);
           return this._dynData[property]; 

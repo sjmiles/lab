@@ -113,7 +113,7 @@
     
     _tailChanged: function(tail) {
       if (tail) {
-        console.log('got new route tail, new route', this.head + '/' + tail, this.route);  
+        //console.log('got new route tail, new route', this.head + '/' + tail, this.route);  
         this.route = this.head + '/' + this.tail;
       }
     },
@@ -126,7 +126,7 @@
           return this._dynData[property]; 
         },
         set: function(value) { 
-          console.log('setting route data: ', property, value);
+          //console.log('setting route data: ', property, value);
           this._dynData[property] = value;
           this._routinate()
         }
@@ -146,7 +146,7 @@
       if (this.tail) {
         interp.push(this.tail);
       }
-      console.log('generated route: ', interp.join('/'));
+      //console.log('generated route: ', interp.join('/'));
       this.route = interp.join('/');
     },
     
@@ -169,7 +169,7 @@
     },
 
     _setRoute: function(route) {
-      console.warn('setting route: ', route);
+      //console.warn('setting route: ', route);
       setRoute(route);
     }
 

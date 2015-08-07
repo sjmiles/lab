@@ -142,6 +142,9 @@
         }        
         return value;
       }, this);
+      if (this.tail) {
+        interp.push(this.tail);
+      }
       console.log('generated route: ', interp.join('/'));
       this.route = interp.join('/');
     },

@@ -112,7 +112,9 @@
     },
     
     _tailChanged: function(tail) {
-      console.log('got new route tail, new route', this.head + '/' + tail);  
+      if (tail) {
+        console.log('got new route tail, new route', this.head + '/' + tail, this.route);  
+      }
     },
     
     _fauxNotify: function(property, value) {

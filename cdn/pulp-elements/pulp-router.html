@@ -57,17 +57,12 @@
     },
 
     created: function() {
+      this._dynData = {}};
       requireRouting();
     },
 
     _computeData: function(route, matches) {
       return this._routinize(route, matches);
-    },
-
-    _fauxNotify: function(property, value) {
-      this[property] = value;
-      this._notifyChange(property);
-      //this.set(property, value);
     },
 
     _routinize: function(route, match) {
@@ -112,6 +107,33 @@
       //
       return values;
       //}
+    },
+    
+    _fauxNotify: function(property, value) {
+      Object.defineProperty(property, {
+        get: function() { 
+          console.log('getting', property);
+          return this._dynData[property]; 
+        },
+        set: function(value) { 
+          console.log('SETTING', property, value);
+          this._dynData[property] = value;
+          this.routinate()
+        }
+      });
+       this._dynData[property] = value;
+      this._notifyChange(property);
+    },
+
+    _routinate: function() {
+      var trg = this.match.split('/');
+      var interp = trg.map(function(result, value) {
+        if (value[0] == ':') {
+          value = this[value.slice(1)] || '';
+        }        
+        return value;
+      });
+      console.log(interp.join('/'));
     },
     
     _routeChanged: function() { 

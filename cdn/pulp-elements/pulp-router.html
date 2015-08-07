@@ -130,7 +130,7 @@
           this._routinate()
         }
       });
-       this._dynData[property] = value;
+      this._dynData[property] = value;
       this._notifyChange(property);
     },
 
@@ -142,7 +142,7 @@
         }        
         return value;
       }, this);
-      console.log(interp.join('/'));
+      console.log('generated route: ', interp.join('/'));
       this.route = interp.join('/');
     },
     

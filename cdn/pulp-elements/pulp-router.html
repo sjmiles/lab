@@ -130,10 +130,10 @@
       var trg = this.matches.split('/');
       var interp = trg.map(function(value) {
         if (value[0] == ':') {
-          value = this[value.slice(1)] || '';
+          value = this[value.slice(1)];
         }        
         return value;
-      });
+      }, this);
       console.log(interp.join('/'));
     },
     

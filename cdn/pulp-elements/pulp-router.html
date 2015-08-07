@@ -1,0 +1,186 @@
+<link href="../!/polymer/polymer.html" is="pulp-import">
+
+<script>
+(function() {
+
+  var route;
+
+  var requireRouting = function() {
+    requireRouting = function() {};
+    addEventListener('popstate', popStateHandler);
+    parseLocation();
+  };
+
+  var popStateHandler = function() {
+    parseLocation();
+    Polymer.Base.fire('route-change', route, {node: window});
+  };
+
+  var parseLocation = function() {
+    route = location.hash.slice(2);
+  };
+
+  var getRoute = function() {
+    return route;
+  };
+
+  var setRoute = function(value) {
+    if (value !== route) {
+      route = value;
+      history.replaceState(null, '', '#/' + route);
+      popStateHandler();
+    }
+  };
+
+  var topRoute = function(instance) {
+    addEventListener('route-change', function() {
+      instance.route = getRoute();
+    });
+    return getRoute();
+  };
+
+  Polymer.PulpRoutingBehavior = {
+
+    properties: {
+      data: {
+        computed: '_computeData(route, matches)',
+        notify: true
+      },
+      
+      tail: {
+        notify: true
+      },
+      
+      route: {
+        observer: '_routeChanged'
+      }
+    },
+
+    created: function() {
+      requireRouting();
+    },
+
+    _computeData: function(route, matches) {
+      return this._routinize(route, matches);
+    },
+
+    _fauxNotify: function(property, value) {
+      this[property] = value;
+      this._notifyChange(property);
+      //this.set(property, value);
+    },
+
+    _routinize: function(route, match) {
+      var src = route.split('/');
+      var trg = match.split('/');
+      //
+      var head = [];
+      var values = {};
+      //
+      for (var i=0;;i++) {
+        var t = trg[i];
+        if (!t) {
+          break;
+        }
+        var s = src.shift();
+        head.push(s);
+        if (t[0] == ':') {
+          t = t.slice(1);
+          values[t] = s;
+        }
+        else if (!s || t !== s) {
+          return null;
+        }
+      }
+      //
+      Object.keys(values).forEach(function(name) {
+        this._fauxNotify(name, values[name]);
+      }, this);
+      //
+      var head = head.join('/');
+      var tail = src.join('/');
+      //
+      this.tail = tail;
+      //
+      //if (Object.keys(values).length === 0) {
+      //  return tail;
+      //} else {
+      values.head = head;
+      values.tail = tail;
+      //
+      //console.log(route, values);
+      //
+      return values;
+      //}
+    },
+    
+    _routeChanged: function() { 
+    },
+    
+    setRoute: function(route) {
+      setRoute(route);
+    }
+
+  };
+
+  Polymer.PulpRoutingRootBehavior = {
+
+    properties: {
+      route: {
+        value: function() {
+          return topRoute(this) || this.defaultRoute || '';
+        },
+        observer: '__routeChanged'
+      }
+    },
+
+    __routeChanged: function(route) {
+      this._setRoute(route);
+    },
+
+    _setRoute: function(route) {
+      setRoute(route);
+    }
+
+  };
+
+})();
+</script>
+
+<dom-module id="pulp-router">
+  <script>
+
+    Polymer({
+
+      behaviors: [
+        Polymer.PulpRoutingBehavior,
+        Polymer.PulpRoutingRootBehavior
+      ],
+
+      properties: {
+
+        route: {
+          notify: true
+        },
+
+        matches: {
+          value: ':base'
+        }
+
+      }
+
+    });
+  </script>
+</dom-module>
+
+<dom-module id="pulp-route">
+  <script>
+    Polymer({
+
+      behaviors: [
+        Polymer.PulpRoutingBehavior
+      ]
+
+    });
+  </script>
+</dom-module>

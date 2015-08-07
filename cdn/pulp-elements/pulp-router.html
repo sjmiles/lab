@@ -114,6 +114,7 @@
     _tailChanged: function(tail) {
       if (tail) {
         console.log('got new route tail, new route', this.head + '/' + tail, this.route);  
+        this.route = this.head + '/' + this.tail;
       }
     },
     

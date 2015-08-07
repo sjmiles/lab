@@ -52,7 +52,7 @@
       },
       
       route: {
-        observer: '_routeChanged'
+        notify: true
       }
     },
 
@@ -135,11 +135,10 @@
         return value;
       }, this);
       console.log(interp.join('/'));
+      this.route = interp.join('/');
     },
     
-    _routeChanged: function() { 
-    },
-    
+    // static
     setRoute: function(route) {
       setRoute(route);
     }
@@ -153,12 +152,8 @@
         value: function() {
           return topRoute(this) || this.defaultRoute || '';
         },
-        observer: '__routeChanged'
+        observer: '_setRoute'
       }
-    },
-
-    __routeChanged: function(route) {
-      this._setRoute(route);
     },
 
     _setRoute: function(route) {

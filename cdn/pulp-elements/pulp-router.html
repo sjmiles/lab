@@ -42,19 +42,25 @@
   Polymer.PulpRoutingBehavior = {
 
     properties: {
+      route: {
+        notify: true
+      },
+
+      subroute: {
+        notify: true,
+        observer: '_subrouteChanged'
+      },
+
       data: {
         computed: '_computeData(route, matches)',
         notify: true
       },
-      
+
       tail: {
         notify: true,
         observer: '_tailChanged'
-      },
-      
-      route: {
-        notify: true
       }
+
     },
 
     created: function() {
@@ -110,22 +116,27 @@
       return values;
       //}
     },
-    
+
+    _subrouteChanged: function(subroute) {
+      this.tail = subroute;
+    },
+
     _tailChanged: function(tail) {
+      this.subroute = tail;
       if (tail) {
-        //console.log('got new route tail, new route', this.head + '/' + tail, this.route);  
+        //console.log('got new route tail, new route', this.head + '/' + tail, this.route);
         this.route = this.head + '/' + this.tail;
       }
     },
-    
+
     _fauxNotify: function(property, value) {
       Object.defineProperty(this, property, {
         configurable: true,
-        get: function() { 
+        get: function() {
           //console.log('getting', property);
-          return this._dynData[property]; 
+          return this._dynData[property];
         },
-        set: function(value) { 
+        set: function(value) {
           //console.log('setting route data: ', property, value);
           this._dynData[property] = value;
           this._routinate()
@@ -140,7 +151,7 @@
       var interp = trg.map(function(value) {
         if (value[0] == ':') {
           value = this[value.slice(1)];
-        }        
+        }
         return value;
       }, this);
       if (this.tail) {
@@ -149,7 +160,7 @@
       //console.log('generated route: ', interp.join('/'));
       this.route = interp.join('/');
     },
-    
+
     // static
     setRoute: function(route) {
       setRoute(route);

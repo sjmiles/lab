@@ -1,21 +1,19 @@
 <dom-module id="pulp-import">
 <script>
-  var PulpImport = {
+  Polymer.PulpImportBehavior = {
 
-    extends: 'link',
-    
     properties: {
-      
+
       href: {
-        observer: '_srcChanged'
+        observer: '_hrefChanged'
       },
-      
+
       _cache: {
         value: {
           'polymer/polymer.html': true
         }
       }
-      
+
     },
 
     _crackSrc: function(src) {
@@ -32,9 +30,9 @@
       }
       var component = parts[0];
       var path = parts.join('/');
-      
+
       //console.log(/*'org:', org,*/ 'component:', component + ', path:', path);
-      
+
       return {
         //org: org,
         component: component,
@@ -52,30 +50,51 @@
       return true;
     },
 
-    _srcChanged: function(src) {
-      var src = src.replace('%components', '../components');
-      var info = this._crackSrc(src);
+    _hrefChanged: function(href) {
+      href = href.replace('%components', '../components');
+      var info = this._crackSrc(href);
       if (info && window.manifest) {
         for (var n in manifest) {
           if (info.component.match(n)) {
-            src = manifest[n] + info.path;
+            href = manifest[n] + info.path;
             break;
           };
         }
       }
       if (!info || this._debounce(info.path)) {
-        this._import(src.replace('!/', ''));
+        this._import(href.replace('!/', ''));
         //console.log('loading: ', this);
       } else {
         //console.warn('preventing: ', this);
       }
     },
-    
+
     _import: function(href) {
       this.parentNode.insertBefore(this.create('link', {rel: 'import', href: href}), this);
     }
 
   };
-  Polymer(PulpImport);
+
+  Polymer({
+    is: 'pulp-import',
+    extends: 'link',
+    behaviors: [
+      Polymer.PulpImportBehavior
+    ]
+  });
+
+  Polymer({
+    is: 'git-import',
+    extends: 'link',
+    behaviors: [
+      Polymer.PulpImportBehavior
+    ],
+    _hrefChanged: function(href) {
+      var path = href.split('/!/');
+      var url = ['https://rawgit.com', path[0], 'gh-pages', path[1]].join('/');
+      Polymer.PulpImportBehavior._hrefChanged.call(this, url);
+    }
+  });
+
 </script>
 </dom-module>

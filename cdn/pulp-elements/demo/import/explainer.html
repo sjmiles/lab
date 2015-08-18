@@ -9,13 +9,38 @@
 
   <link href="../config.html" rel="import">
 
-  <link href="sjmiles/lab/!/cdn/pulp-elements/pulp-router.html" is="git-import">
-  <link href="sjmiles/lab/!/cdn/iron-elements/iron-selector.html" is="git-import">
-  <link href="sjmiles/lab/!/cdn/iron-elements/flex-layout/layout.html" is="git-import">
+  <script>
+    manifest = {
+      //'.*': 'https://rawgit.com/sjmiles/lab/gh-pages/cdn/'
+      '.*': 'https://cdn.rawgit.com/sjmiles/lab/d19c43c5aa3fd930445453a4e9077c84e809228c/cdn/'
+    };
+  </script>
+
+  <link href="/!/pulp-elements/pulp-router.html" is="pulp-import">
+  <link href="/!/iron-elements/iron-selector.html" is="pulp-import">
+  <link href="/!/iron-elements/flex-layout/layout.html" is="pulp-import">
+
 
   <!--
-  <link href="../../../!/iron-elements/iron-selector.html" is="pulp-import">
-  <link href="../../../!/iron-elements/flex-layout/layout.html" is="pulp-import">
+  <link href="sjmiles/lab/cdn/!/pulp-elements/pulp-router.html" is="git-import">
+  <link href="sjmiles/lab/cdn/!/iron-elements/iron-selector.html" is="git-import">
+  <link href="sjmiles/lab/cdn/!/iron-elements/flex-layout/layout.html" is="git-import">
+  -->
+
+  <!--
+
+  <script>
+    gmanifest = {
+      'pulp-*': 'sjmiles/lab/cdn/!/pulp-elements/',
+      'iron-*': 'sjmiles/lab/cdn/!/iron-elements/',
+      'flex-*': 'sjmiles/lab/cdn/!/iron-elements/',
+    };
+  </script>
+
+  <link import="pulp-router" is="git-import">
+  <link import="iron-selector" is="git-import">
+  <link import="flex-layout/layout" is="git-import">
+
   -->
 
   <style>

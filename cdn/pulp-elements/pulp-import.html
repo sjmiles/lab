@@ -89,10 +89,44 @@
     behaviors: [
       Polymer.PulpImportBehavior
     ],
+    properties: {
+      'href': {
+        observer: '_hrefChanged'
+      }
+    },
     _hrefChanged: function(href) {
       var path = href.split('/!/');
-      var url = ['https://rawgit.com', path[0], 'gh-pages', path[1]].join('/');
-      Polymer.PulpImportBehavior._hrefChanged.call(this, url);
+      var lhs = path[0].split('/');
+      var org = lhs.shift();
+      var repo = lhs.shift();
+      var prefix = [org, repo].join('/');
+      var suffix = [lhs, path[1]].join('/')
+      var href = ['https://rawgit.com', prefix, 'gh-pages', suffix].join('/');
+      Polymer.PulpImportBehavior._hrefChanged.call(this, href);
+    }
+  });
+
+
+  Polymer({
+    is: 'git-import2',
+    extends: 'link',
+    behaviors: [
+      Polymer.PulpImportBehavior
+    ],
+    properties: {
+      'import': {
+        observer: '_importChanged'
+      }
+    },
+    _importChanged: function(imprt) {
+      var path = imprt.split('/!/');
+      var lhs = path[0].split('/');
+      var org = lhs.shift();
+      var repo = lhs.shift();
+      var prefix = [org, repo].join('/');
+      var suffix = [lhs, path[1]].join('/')
+      var href = ['https://rawgit.com', prefix, 'gh-pages', suffix, '.html'].join('/');
+      this.href = href;
     }
   });
 
